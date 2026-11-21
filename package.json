@@ -1,0 +1,16 @@
+{
+  "name": "arkhaven-platform",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "npm run dev -w server & npm run dev -w client",
+    "build": "npm run build -w server && npm run build -w client",
+    "vercel-build": "npm run build -w client",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client",
+    "test": "npm test -w server",
+    "create-super-admin": "npm run create-super-admin -w server",
+    "seed": "npm run seed -w server"
+  },
+  "engines": { "node": ">=20" }
+}
