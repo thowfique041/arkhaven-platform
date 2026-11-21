@@ -85,7 +85,7 @@ export function streamReceipt(res: Response, r: ReceiptData) {
   row("Transaction / Ref.", r.transactionRef ?? "-");
   row("Status", "Verified");
 
-  section("Account summary (as of issue date)");
+  section(`Account summary (as of ${date(new Date())})`);
   row("Agreed price", formatBDT(r.summary.totalPriceMinor));
   row("Total paid (verified)", formatBDT(r.summary.paidMinor));
   row("Remaining balance", formatBDT(r.summary.remainingMinor));

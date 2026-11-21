@@ -92,7 +92,10 @@ export default function Users() {
                           className="h-8 w-36 py-1 text-sm"
                           value={u.role}
                           disabled={self}
-                          onChange={(e) => act.mutate(() => api.patch(`/users/${u._id}`, { role: e.target.value }).then(() => toast("Role updated")))}
+                          onChange={(e) => {
+                            const role = e.target.value;
+                            act.mutate(() => api.patch(`/users/${u._id}`, { role }).then(() => toast("Role updated")));
+                          }}
                         >
                           <option value="admin">Admin</option>
                           <option value="superadmin">Super Admin</option>

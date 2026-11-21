@@ -300,7 +300,10 @@ function LeadPanel({ id, onClose, onCredentials }: { id: string; onClose: () => 
                 className="h-9 w-56 py-1.5"
                 value={lead.status}
                 disabled={lead.status === "converted"}
-                onChange={(e) => act.mutate(() => api.patch(`/leads/${id}/status`, { status: e.target.value }).then(() => toast(`Status changed to ${leadStatusLabel[e.target.value as LeadStatus]}`)))}
+                onChange={(e) => {
+                  const next = e.target.value as LeadStatus;
+                  act.mutate(() => api.patch(`/leads/${id}/status`, { status: next }).then(() => toast(`Status changed to ${leadStatusLabel[next]}`)));
+                }}
               >
                 {statuses.map((s) => (
                   <option key={s} value={s} disabled={s === "converted"}>

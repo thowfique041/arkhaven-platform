@@ -24,7 +24,8 @@ const optEmail = email.optional().nullable().or(z.literal("").transform(() => nu
 const minor = z.number().int("Amount must be in whole poisha").min(0).max(1e13);
 const posMinor = z.number().int("Amount must be in whole poisha").min(1, "Amount must be greater than zero").max(1e13);
 const date = z.coerce.date();
-const optDate = z.union([z.coerce.date(), z.literal("").transform(() => null), z.null()]).optional();
+/** Optional date: "" and null both mean "no date". (z.coerce.date() would turn null into 1970-01-01.) */
+const optDate = z.preprocess((v) => (v === "" || v === null ? null : v), z.coerce.date().nullable()).optional();
 const url = z.string().trim().url().max(1000);
 const image = z.object({ url, publicId: optStr(300), caption: optStr(200) });
 const password = z

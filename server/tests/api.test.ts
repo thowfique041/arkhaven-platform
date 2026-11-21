@@ -186,6 +186,12 @@ test("lead lifecycle: create, status, note, follow-up, search, history", async (
   const due = await admin.get("/api/leads?followUp=due");
   assert.equal(due.body.data.length, 1);
   assert.equal(search.body.meta.counts.contacted, 1);
+  // Blank dates must stay blank (not 1970-01-01)
+  const blankDate = await admin.post("/api/leads", { fullName: "No Date", phone: "01700000001", followUpDate: null });
+  assert.equal(blankDate.body.data.lead.followUpDate ?? null, null);
+  const emptyDate = await admin.patch(`/api/leads/${blankDate.body.data.lead._id}`, { followUpDate: "" });
+  assert.equal(emptyDate.body.data.followUpDate ?? null, null);
+  await admin.del(`/api/leads/${blankDate.body.data.lead._id}`);
   // A second lead to delete
   const l2 = await admin.post("/api/leads", { fullName: "Temp Lead", phone: "01700000000" });
   assert.equal((await admin.del(`/api/leads/${l2.body.data.lead._id}`)).status, 200);
