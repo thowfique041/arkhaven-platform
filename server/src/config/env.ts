@@ -21,17 +21,22 @@ const schema = z.object({
 });
 
 const parsed = schema.safeParse(process.env);
-if (!parsed.success) {
-  const issues = parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
-  // Fail fast: running without a database or a secret would be unsafe.
-  throw new Error(`Invalid environment configuration: ${issues}`);
-}
+/**
+ * Missing/invalid configuration does not crash the process (that would hide the reason
+ * behind a generic platform error). Instead every API call except /api/health answers
+ * 503 with this message, and no request is served with an unsafe default.
+ */
+export const configError = parsed.success
+  ? null
+  : parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+if (configError) console.error(`Invalid environment configuration: ${configError}`);
+const data = parsed.success ? parsed.data : schema.partial().parse({}) as z.infer<typeof schema>;
 
 export const env = {
-  ...parsed.data,
-  isProd: parsed.data.NODE_ENV === "production",
-  clientOrigins: parsed.data.CLIENT_ORIGINS.split(",").map((s) => s.trim()).filter(Boolean),
+  ...data,
+  isProd: data.NODE_ENV === "production",
+  clientOrigins: (data.CLIENT_ORIGINS ?? "").split(",").map((s) => s.trim()).filter(Boolean),
   cloudinaryEnabled: Boolean(
-    parsed.data.CLOUDINARY_CLOUD_NAME && parsed.data.CLOUDINARY_API_KEY && parsed.data.CLOUDINARY_API_SECRET,
+    data.CLOUDINARY_CLOUD_NAME && data.CLOUDINARY_API_KEY && data.CLOUDINARY_API_SECRET,
   ),
 };

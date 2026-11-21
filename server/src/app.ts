@@ -2,7 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { env } from "./config/env";
+import { configError, env } from "./config/env";
 import { connectDB } from "./config/db";
 import { api } from "./routes";
 import { apiLimiter, errorHandler, notFound } from "./middlewares/common";
@@ -27,7 +27,18 @@ export function createApp() {
   app.use(express.json({ limit: "1mb" }));
   app.use(cookieParser());
 
-  app.get("/api/health", (_req, res) => res.json({ success: true, data: { status: "ok", time: new Date().toISOString() } }));
+  app.get("/api/health", (_req, res) =>
+    res.status(configError ? 503 : 200).json({
+      success: !configError,
+      data: { status: configError ? "misconfigured" : "ok", time: new Date().toISOString(), uploads: env.cloudinaryEnabled ? "cloudinary" : "disabled" },
+      ...(configError ? { error: { code: "SERVER_NOT_CONFIGURED", message: configError } } : {}),
+    }),
+  );
+
+  app.use("/api", (_req, res, next) => {
+    if (!configError) return next();
+    res.status(503).json({ success: false, error: { code: "SERVER_NOT_CONFIGURED", message: "The server is not fully configured yet. An administrator needs to set its environment variables." } });
+  });
 
   // Ensure a DB connection before any API work (cached across serverless invocations).
   app.use("/api", async (_req, _res, next) => {

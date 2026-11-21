@@ -1,0 +1,6 @@
+{
+  "//": "Used by Vercel when type-checking api/index.ts (which imports the server source).",
+  "extends": "./server/tsconfig.json",
+  "compilerOptions": { "rootDir": ".", "noEmit": true },
+  "include": ["api", "server/src"]
+}

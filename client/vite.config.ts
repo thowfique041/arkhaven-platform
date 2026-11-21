@@ -17,7 +17,6 @@ export default defineConfig({
         manualChunks: {
           react: ["react", "react-dom", "react-router-dom"],
           data: ["@tanstack/react-query", "axios", "zod", "react-hook-form", "@hookform/resolvers"],
-          charts: ["recharts"],
           motion: ["framer-motion"],
         },
       },
