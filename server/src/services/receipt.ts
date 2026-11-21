@@ -1,4 +1,3 @@
-import PDFDocument from "pdfkit";
 import type { Response } from "express";
 import { formatBDT, type FinancialSummary } from "./finance";
 
@@ -26,6 +25,9 @@ const label = (s: string) => s.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUp
 const date = (d: Date) => d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 
 export function streamReceipt(res: Response, r: ReceiptData) {
+  // Loaded on demand so the PDF library never affects API start-up.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const PDFDocument = require("pdfkit") as typeof import("pdfkit");
   const doc = new PDFDocument({ size: "A4", margin: 50, info: { Title: `Receipt ${r.receiptNumber}`, Author: r.company.name } });
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `attachment; filename="${r.receiptNumber}.pdf"`);
