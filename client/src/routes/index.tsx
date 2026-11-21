@@ -14,6 +14,7 @@ const Landowners = lazy(() => import("@/pages/public/Landowners"));
 const Privacy = lazy(() => import("@/pages/public/Privacy"));
 const Login = lazy(() => import("@/pages/public/Login"));
 const ChangePassword = lazy(() => import("@/pages/public/ChangePassword"));
+const Setup = lazy(() => import("@/pages/public/Setup"));
 
 const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
 const Dashboard = lazy(() => import("@/pages/admin/Dashboard"));
@@ -82,6 +83,7 @@ export const router = createBrowserRouter([
       { path: "/login", element: <S><Login /></S> },
       { path: "/admin/login", element: <S><Login staff /></S> },
       { path: "/account/password", element: <S><ChangePassword /></S> },
+      { path: "/setup", element: <S><Setup /></S> },
       {
         path: "/admin",
         element: (

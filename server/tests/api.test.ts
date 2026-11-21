@@ -83,6 +83,12 @@ test("bootstrap creates first super admin once, then closes", async () => {
   assert.equal(again.status, 409);
 });
 
+test("setup status closes after bootstrap; sample content is super-admin only", async () => {
+  const st = await anon.get("/api/auth/setup-status");
+  assert.equal(st.body.data.needsSetup, false);
+  assert.equal(st.body.data.bootstrapEnabled, false);
+});
+
 test("login: wrong password rejected, correct sets httpOnly cookie", async () => {
   const bad = await superA.post("/api/auth/login", { identifier: "sa@test.io", password: "nope" });
   assert.equal(bad.status, 401);
@@ -418,6 +424,20 @@ test("website content management", async () => {
   const t = await admin.post("/api/testimonials", { name: "Happy Buyer", quote: "Great experience overall", published: true });
   assert.equal(t.status, 201);
   assert.equal((await anon.get("/api/testimonials")).body.data.length, 1);
+});
+
+test("sample content: forbidden for admin, allowed for super admin, idempotent", async () => {
+  assert.equal((await admin.post("/api/settings/sample-content")).status, 403);
+  const r = await superA.post("/api/settings/sample-content");
+  assert.equal(r.status, 200);
+  const again = await superA.post("/api/settings/sample-content");
+  assert.equal(again.status, 200);
+  const pub = await anon.get("/api/projects?search=Meridian");
+  assert.equal(pub.body.data.length, 1);
+  // keep later dashboard assertions independent of seeded units
+  const mongoose = (await import("mongoose")).default;
+  const seeded = await mongoose.connection.db!.collection("projects").find({ slug: { $in: ["arkhaven-meridian", "lintel-court", "kadamba-residences", "arkhaven-exchange"] } }).toArray();
+  await mongoose.connection.db!.collection("flats").deleteMany({ project: { $in: seeded.map((p) => p._id) } });
 });
 
 test("dashboard stats are computed on the server", async () => {

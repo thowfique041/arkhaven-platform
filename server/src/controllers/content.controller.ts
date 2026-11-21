@@ -3,6 +3,7 @@ import type { z } from "zod";
 import { Announcement, Customer, Inquiry, Lead, Project, Testimonial, WebsiteSettings } from "../models";
 import { logActivity } from "../services/activity";
 import { uploadBuffer } from "../services/storage";
+import { seedContent } from "../services/seedContent";
 import { ApiError, created, escapeRegex, ok, pageMeta, paginate } from "../utils/http";
 import type { announcementSchema, inquirySchema, settingsSchema, testimonialSchema } from "../validators";
 
@@ -161,4 +162,11 @@ export async function uploadImages(req: Request, res: Response) {
   const stored = await Promise.all(files.map((f) => uploadBuffer(f, folder)));
   await logActivity(req, "upload", "Media", null, `Uploaded ${stored.length} file(s) to ${folder}`);
   return created(res, stored);
+}
+
+/* ---------------- Sample content (super admin) ---------------- */
+export async function loadSampleContent(req: Request, res: Response) {
+  const log = await seedContent(false);
+  await logActivity(req, "system.seed", "WebsiteSettings", null, "Loaded sample website content", { log });
+  return ok(res, { log });
 }

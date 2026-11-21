@@ -28,7 +28,7 @@ arkhaven-platform/
 │   └── src/{components,pages,layouts,hooks,services,contexts,types,utils,routes}
 ├── server/                   # Express API
 │   ├── src/{config,controllers,models,routes,middlewares,services,validators,utils,types,scripts}
-│   └── tests/api.test.ts     # End-to-end API tests (24)
+│   └── tests/api.test.ts     # End-to-end API tests (26)
 ├── vercel.json
 ├── README.md, BRAND_GUIDELINES.md, REFERENCE_ANALYSIS.md, API_DOCUMENTATION.md
 ```
@@ -81,7 +81,8 @@ Client: `VITE_API_URL` only if the API is on a different origin (leave empty on 
 No default credentials exist anywhere in the code. Use one of:
 
 1. **CLI (recommended):** with `MONGODB_URI` pointing at the production database, run `npm run create-super-admin` on your own machine. The password is typed with hidden input and only its bcrypt hash is stored.
-2. **One-time HTTP bootstrap (when you can't run the CLI):** set `BOOTSTRAP_TOKEN` to a long random value in Vercel, redeploy, then:
+2. **Web setup page:** set `BOOTSTRAP_TOKEN` to a long random value in Vercel, redeploy, and open `https://<your-domain>/setup?token=<BOOTSTRAP_TOKEN>`. Enter your name, email and a password of your choice (12+ characters); optionally tick "Load sample content". The page closes itself once a Super Admin exists. **Delete `BOOTSTRAP_TOKEN` from Vercel afterwards.**
+3. **One-time HTTP bootstrap (scripted alternative):**
    ```bash
    curl -X POST https://<your-domain>/api/auth/bootstrap -H 'content-type: application/json' \
      -d '{"token":"<BOOTSTRAP_TOKEN>","name":"Your Name","email":"you@company.com","password":"<strong password>"}'
@@ -116,14 +117,14 @@ The whole app is one Vercel project: the React build is served statically and `/
 1. **MongoDB Atlas:** create a cluster and database user; in *Network Access* allow `0.0.0.0/0` (Vercel has no fixed IPs). Copy the `mongodb+srv://` URI.
 2. **Cloudinary:** copy cloud name, API key and secret from the dashboard.
 3. **Vercel:** *Add New → Project →* import this GitHub repo. Framework preset "Other"; the build settings come from `vercel.json`. Add the environment variables above (Production + Preview) and deploy.
-4. **Seed and admin:** run `npm run seed` and `npm run create-super-admin` locally with `MONGODB_URI` set to the Atlas URI (or use the HTTP bootstrap).
+4. **Super Admin and content:** open `/setup?token=<BOOTSTRAP_TOKEN>` (see above) and tick "Load sample content", or run `npm run create-super-admin` and `npm run seed` locally against the Atlas URI. Super Admins can also load sample content later via `POST /api/settings/sample-content`.
 5. Verify: `/api/health`, the homepage ledger and project pages, staff sign-in, create a test lead → convert → payment → verify → sign in as that customer.
 
 Optional: set `CLIENT_ORIGINS` if you host the frontend elsewhere and point `VITE_API_URL` at the API.
 
 ## Testing
 
-- `npm test`: 24 API integration tests covering bootstrap, login, roles, project/flat CRUD, the lead lifecycle and conversion, double-booking, payment validation, balance caps, duplicate references, verification math, customer data isolation, receipts, progress, scoped announcements, session revocation, inquiries, CMS merging, dashboard totals, uploads without Cloudinary, error handling and rate limiting.
+- `npm test`: 26 API integration tests covering bootstrap, login, roles, project/flat CRUD, the lead lifecycle and conversion, double-booking, payment validation, balance caps, duplicate references, verification math, customer data isolation, receipts, progress, scoped announcements, session revocation, inquiries, CMS merging, dashboard totals, uploads without Cloudinary, error handling and rate limiting.
 - A Playwright end-to-end run (used during development) exercises the UI journey: staff sign-in → create lead → note and status → convert (one-time credentials) → over-balance payment rejected → record and verify payment → customer forced password change → portal shows the payment → receipt PDF download → customer blocked from admin UI and staff API.
 
 ## Known limitations

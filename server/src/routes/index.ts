@@ -27,6 +27,7 @@ authR.get("/session", optionalAuthenticate, ah(auth.session));
 authR.patch("/me", authenticate, validate(V.profileSchema), ah(auth.updateProfile));
 authR.post("/change-password", authenticate, validate(V.changePasswordSchema), ah(auth.changePassword));
 authR.post("/bootstrap", loginLimiter, validate(V.bootstrapSchema), ah(auth.bootstrap));
+authR.get("/setup-status", ah(auth.setupStatus));
 // Note: there is intentionally NO register endpoint.
 
 /* ---------- /api/users (staff accounts, super admin only) ---------- */
@@ -134,6 +135,7 @@ testR.delete("/:id", ...staff, id, ah(content.deleteTestimonial));
 const settingsR = Router();
 settingsR.get("/", ah(content.getSettings));
 settingsR.put("/", ...staff, validate(V.settingsSchema), ah(content.updateSettings));
+settingsR.post("/sample-content", authenticate, requireSuperAdmin, ah(content.loadSampleContent));
 
 /* ---------- /api/inquiries ---------- */
 const inqR = Router();

@@ -96,6 +96,12 @@ export async function updateProfile(req: Request, res: Response) {
   return ok(res, await sessionPayload(String(user._id)));
 }
 
+/** Whether first-run setup is still open (no Super Admin yet and a bootstrap token configured). */
+export async function setupStatus(_req: Request, res: Response) {
+  const hasSuperAdmin = !!(await User.exists({ role: "superadmin" }));
+  return ok(res, { needsSetup: !hasSuperAdmin, bootstrapEnabled: !!env.BOOTSTRAP_TOKEN && !hasSuperAdmin });
+}
+
 /**
  * One-time Super Admin bootstrap. Works only when BOOTSTRAP_TOKEN is configured
  * AND no super admin exists yet. Remove BOOTSTRAP_TOKEN after use.

@@ -41,7 +41,12 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Enter your password").max(128),
 });
 export const changePasswordSchema = z.object({ currentPassword: z.string().min(1).max(128), newPassword: password });
-export const bootstrapSchema = z.object({ token: z.string().min(16), name: str(120).min(2), email, password });
+export const bootstrapSchema = z.object({
+  token: z.string().min(16),
+  name: str(120).min(2),
+  email,
+  password: password.and(z.string().min(12, "Super Admin password must be at least 12 characters")),
+});
 export const profileSchema = z.object({
   name: str(120).min(2).optional(),
   phone: phone.optional(),

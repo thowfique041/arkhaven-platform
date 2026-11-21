@@ -27,7 +27,8 @@ Legend: 🌐 public · 👤 any signed-in user · 🧑‍💼 staff (admin + sup
 | GET | `/auth/me` | 👤 | Current `{ user, customer }`; 401 if not signed in. |
 | PATCH | `/auth/me` | 👤 | Staff: `{ name?, phone?, notificationPrefs? }`. Customers: `{ phone?, email?, address? }` only. |
 | POST | `/auth/change-password` | 👤 | `{ currentPassword, newPassword }` (8+ chars, letter + number). Clears `mustChangePassword`, signs out other sessions. |
-| POST | `/auth/bootstrap` | 🌐 | `{ token, name, email, password }`. Creates the first Super Admin. Works only when `BOOTSTRAP_TOKEN` is set **and** no Super Admin exists. |
+| GET | `/auth/setup-status` | 🌐 | `{ needsSetup, bootstrapEnabled }` |
+| POST | `/auth/bootstrap` | 🌐 | `{ token, name, email, password (12+) }`. Creates the first Super Admin. Works only when `BOOTSTRAP_TOKEN` is set **and** no Super Admin exists. |
 
 There is **no registration endpoint**.
 
@@ -140,6 +141,7 @@ Stages: Booking Confirmed, Land Preparation, Foundation Work, Structural Constru
 | POST/PATCH/DELETE | `/testimonials[/:id]` | 🧑‍💼 | `{ name, role?, quote, rating, photo?, project?, published, sortOrder }` |
 | GET | `/settings` | 🌐 | Website content (hero, about, values, whyUs, stats, team, milestones, featuredProjectIds, contact, social, seo, announcementBar) |
 | PUT | `/settings` | 🧑‍💼 | Partial; nested objects are merged |
+| POST | `/settings/sample-content` | 👑 | Loads the sample projects/website content if missing (idempotent; no users or payments) |
 | POST | `/inquiries` | 🌐 | `{ kind: general\|project\|landowner, name, phone, email?, message?, project?, landDetails? }` (honeypot field `website` must be empty) |
 | GET | `/inquiries?status=&kind=&search=` | 🧑‍💼 | `meta.newCount` |
 | PATCH | `/inquiries/:id` | 🧑‍💼 | `{ status: new\|reviewed\|spam }` |
