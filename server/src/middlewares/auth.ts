@@ -68,6 +68,15 @@ export async function authenticate(req: Request, _res: Response, next: NextFunct
   }
 }
 
+/** Like authenticate, but never fails: used for "who am I, if anyone" checks. */
+export async function optionalAuthenticate(req: Request, res: Response, next: NextFunction) {
+  if (!readToken(req)) return next();
+  authenticate(req, res, (err?: unknown) => {
+    if (err) req.user = undefined;
+    next();
+  });
+}
+
 export const requireRole =
   (...roles: Role[]) =>
   (req: Request, _res: Response, next: NextFunction) => {

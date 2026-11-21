@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ah } from "../utils/http";
-import { authenticate, requireCustomer, requireStaff, requireSuperAdmin } from "../middlewares/auth";
+import { authenticate, optionalAuthenticate, requireCustomer, requireStaff, requireSuperAdmin } from "../middlewares/auth";
 import { loginLimiter, publicFormLimiter, upload, validId, validate } from "../middlewares/common";
 import * as V from "../validators";
 import * as auth from "../controllers/auth.controller";
@@ -23,6 +23,7 @@ const authR = Router();
 authR.post("/login", loginLimiter, validate(V.loginSchema), ah(auth.login));
 authR.post("/logout", ah(auth.logout));
 authR.get("/me", authenticate, ah(auth.me));
+authR.get("/session", optionalAuthenticate, ah(auth.session));
 authR.patch("/me", authenticate, validate(V.profileSchema), ah(auth.updateProfile));
 authR.post("/change-password", authenticate, validate(V.changePasswordSchema), ah(auth.changePassword));
 authR.post("/bootstrap", loginLimiter, validate(V.bootstrapSchema), ah(auth.bootstrap));

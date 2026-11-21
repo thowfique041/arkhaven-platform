@@ -52,7 +52,7 @@ export function streamReceipt(res: Response, r: ReceiptData) {
   doc.text(`Issued  ${date(r.verifiedAt ?? new Date())}`, 50, 172);
 
   // Amount block
-  doc.rect(330, 128, 215, 62).fill("#F5F2EB");
+  doc.rect(330, 128, 215, 62).fill("#EEF1EE");
   doc.fillColor(SLATE).font("Helvetica").fontSize(8).text("AMOUNT RECEIVED", 345, 140, { characterSpacing: 1 });
   doc.fillColor(INK).font("Helvetica-Bold").fontSize(17).text(formatBDT(r.amountMinor), 345, 156, { width: 190 });
 

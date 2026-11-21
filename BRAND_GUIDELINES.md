@@ -46,20 +46,20 @@ Rules: keep clear space equal to the door width on all sides; minimum width 120p
 | Ink 900 | `#0B201C` | Deepest backgrounds, admin sidebar |
 | Brass | `#B08D57` | Accent: eyebrows, highlights, focus, the doorway |
 | Brass light | `#D9C29A` | Accent on dark backgrounds |
-| Stone | `#F5F2EB` | Warm page background for alternating sections |
+| Mist | `#EEF1EE` | Cool limestone background for alternating sections (deliberately not cream) |
 | Paper | `#FFFFFF` | Cards and main background |
 | Charcoal | `#1B1F1E` | Body text |
 | Slate | `#5B6B66` | Secondary text |
-| Line | `#E4DFD4` | Borders and dividers |
+| Line | `#DCE2DE` | Borders and dividers |
 | Status | Success `#2F7D5B`, Warning `#B7791F`, Danger `#B4443A`, Info `#2F5F8A` | Badges only |
 
-Ratio guide: 60% Paper/Stone, 30% Ink, 10% Brass. No gradients except the dark photo overlay.
+Ratio guide: 60% Paper/Mist, 30% Ink, 10% Brass. No gradients except the dark photo overlay.
 
 ## 4. Typography
 
 - **Display / headings:** Fraunces (variable, optical size on), weight 500 to 600. Tight leading (1.05 to 1.15).
 - **Body / UI:** Manrope (variable), weight 400 to 700.
-- **Eyebrows:** Manrope 600, 12px, uppercase, 0.2em tracking, Brass.
+- **Section labels:** Manrope 600, 13px, sentence case, Brass. Used only when the label adds information (e.g. a project's status or area), never as decoration above every heading.
 - Fonts are self-hosted via `@fontsource-variable` (no Google Fonts call, no layout shift from a third party).
 
 Scale (desktop): H1 64 / H2 44 / H3 28 / H4 20 / body 16 / small 14 / micro 12.
@@ -69,8 +69,9 @@ Scale (desktop): H1 64 / H2 44 / H3 28 / H4 20 / body 16 / small 14 / micro 12.
 - Corners: 2px on buttons and inputs, 4px on cards. Deliberately crisp and architectural; avoid big rounded cards.
 - Borders over shadows. Shadows only on hover lift and floating menus.
 - 12-column grid, 1280px max content width, 96 to 128px section spacing on desktop.
-- Thin brass rule (40px x 2px) above section eyebrows.
-- Motion: 300 to 500ms ease-out fades and 16px rises on scroll; respects `prefers-reduced-motion`.
+- The signature element is the live construction ledger in the homepage hero: real progress per project, straight from the database. Other sections stay quiet.
+- Motion: one orchestrated hero reveal on load; elsewhere motion only responds to user actions (opening, expanding, confirming).
+- All motion respects `prefers-reduced-motion`.
 
 ## 6. Voice
 
@@ -78,4 +79,4 @@ Calm, precise, accountable. Use concrete facts (floors, units, handover dates) o
 
 ## 7. Admin and portal
 
-Same tokens, different structure: the admin uses a dark Ink 900 sidebar, dense tables and Manrope-only headings for scanability; the customer portal uses the warm Stone background with Fraunces headings, closer to the public site.
+Same tokens, different structure: the admin uses a dark Ink 900 sidebar, dense tables and Manrope-only headings for scanability; the customer portal uses the Mist background with Fraunces headings, closer to the public site.

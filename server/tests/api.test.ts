@@ -67,6 +67,13 @@ test("health + no public registration endpoint", async () => {
   assert.equal(r.status, 404);
 });
 
+test("anonymous session check returns null without an error", async () => {
+  const r = await anon.get("/api/auth/session");
+  assert.equal(r.status, 200);
+  assert.equal(r.body.data, null);
+  assert.equal((await anon.get("/api/auth/me")).status, 401);
+});
+
 test("bootstrap creates first super admin once, then closes", async () => {
   const bad = await anon.post("/api/auth/bootstrap", { token: "wrong-token-wrong-token", name: "S A", email: "sa@test.io", password: "SuperPass123" });
   assert.equal(bad.status, 403);

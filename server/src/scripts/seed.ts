@@ -31,7 +31,6 @@ const projects = [
       city: "Dhaka",
       lat: 23.8193,
       lng: 90.4526,
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14602.2!2d90.4426!3d23.8193!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQ5JzA5LjUiTiA5MMKwMjcnMDkuNCJF!5e0!3m2!1sen!2sbd!4v1700000000000",
     },
     coverImage: img("1515263487990-61b07816b324", "Front elevation"),
     gallery: [
@@ -42,9 +41,9 @@ const projects = [
       img("1600210492486-724fe5c67fb0", "Family lounge"),
     ],
     floorPlans: [
-      { title: "Type A · South corner", sizeSqft: 2100, bedrooms: 4, bathrooms: 4 },
-      { title: "Type B · South", sizeSqft: 1850, bedrooms: 3, bathrooms: 3 },
-      { title: "Type C · North", sizeSqft: 1650, bedrooms: 3, bathrooms: 3 },
+      { title: "Type A, South corner", sizeSqft: 2100, bedrooms: 4, bathrooms: 4 },
+      { title: "Type B, South", sizeSqft: 1850, bedrooms: 3, bathrooms: 3 },
+      { title: "Type C, North", sizeSqft: 1650, bedrooms: 3, bathrooms: 3 },
     ],
     amenities: ["Rooftop garden", "Prayer pavilion", "Children's play deck", "Double-height lobby", "Two passenger lifts", "Stretcher lift", "Full generator backup", "Substation", "Fire detection & sprinklers", "24/7 CCTV & security", "Gas connection (Titas)", "Water treatment plant"],
     facilities: ["Two basements, 1 bay per unit", "Visitor parking", "Reception & concierge", "Community hall (rooftop)", "Driver's waiting room", "Intercom to every unit"],
@@ -73,7 +72,7 @@ const projects = [
     location: { address: "House 18, Road 9, Sector 13, Uttara, Dhaka 1230", area: "Uttara", city: "Dhaka", lat: 23.8733, lng: 90.3914 },
     coverImage: img("1479839672679-a46483c0e7c8", "Concept elevation"),
     gallery: [img("1479839672679-a46483c0e7c8", "Concept elevation"), img("1522708323590-d24dbb6b0267", "Living and dining"), img("1560448204-e02f11c3d0e2", "Lounge with balcony"), img("1502672260266-1c1ef2d93688", "Reading corner")],
-    floorPlans: [{ title: "Type A · East", sizeSqft: 1380, bedrooms: 3, bathrooms: 3 }, { title: "Type B · West", sizeSqft: 1290, bedrooms: 3, bathrooms: 2 }],
+    floorPlans: [{ title: "Type A, East", sizeSqft: 1380, bedrooms: 3, bathrooms: 3 }, { title: "Type B, West", sizeSqft: 1290, bedrooms: 3, bathrooms: 2 }],
     amenities: ["Rooftop terrace", "Passenger lift", "Generator backup", "CCTV", "Gas connection", "Deep shaded balconies"],
     facilities: ["Ground-floor parking", "Guard room", "Intercom"],
     specs: { landArea: "6 katha", totalFloors: 9, floorsLabel: "G + 9", unitsPerFloor: 3, parking: "1 per apartment (limited)", frontRoad: "30 ft", structure: "RCC frame, BNBC 2020", typicalSizeSqft: "1,290 to 1,380 sft", bedrooms: 3, bathrooms: 3 },
@@ -139,7 +138,7 @@ const settings = {
   companyName: "Arkhaven Properties Ltd.",
   announcementBar: "Pre-booking is open for Lintel Court, Uttara. Speak to an advisor this week.",
   hero: {
-    eyebrow: "Residential & commercial developer · Dhaka · Sylhet",
+    eyebrow: "Residential and commercial developer in Dhaka and Sylhet",
     title: "Homes built with care, handed over with trust.",
     subtitle: "Arkhaven designs and builds apartments where the paperwork is clear, the progress is visible, and the handover date means something.",
     image: { url: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2400&q=80" },

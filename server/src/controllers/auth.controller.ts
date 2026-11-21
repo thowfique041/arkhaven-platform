@@ -47,6 +47,12 @@ export async function me(req: Request, res: Response) {
   return ok(res, await sessionPayload(req.user!.id));
 }
 
+/** Returns the current session or null (200 either way) so anonymous visitors don't trigger errors. */
+export async function session(req: Request, res: Response) {
+  if (!req.user) return ok(res, null);
+  return ok(res, await sessionPayload(req.user.id));
+}
+
 export async function changePassword(req: Request, res: Response) {
   const { currentPassword, newPassword } = req.body as z.infer<typeof changePasswordSchema>;
   const user = await User.findById(req.user!.id).select("+passwordHash +tokenVersion");
